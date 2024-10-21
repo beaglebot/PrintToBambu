@@ -28,11 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             printButton = new Button();
             tableLayoutPanel1 = new TableLayoutPanel();
             label2 = new Label();
             accessCode = new TextBox();
+            settingsBindingSource2 = new BindingSource(components);
             host = new TextBox();
+            settingsBindingSource1 = new BindingSource(components);
             label1 = new Label();
             hostLabel = new Label();
             panel1 = new Panel();
@@ -41,6 +44,8 @@
             logTextBox = new RichTextBox();
             openFileDialog = new OpenFileDialog();
             tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)settingsBindingSource2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)settingsBindingSource1).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -96,19 +101,29 @@
             // 
             // accessCode
             // 
+            accessCode.DataBindings.Add(new Binding("Text", settingsBindingSource2, "AccessCode", true));
             accessCode.Location = new Point(87, 53);
             accessCode.Margin = new Padding(2);
             accessCode.Name = "accessCode";
             accessCode.Size = new Size(141, 23);
             accessCode.TabIndex = 3;
             // 
+            // settingsBindingSource2
+            // 
+            settingsBindingSource2.DataSource = typeof(Properties.Settings);
+            // 
             // host
             // 
+            host.DataBindings.Add(new Binding("Text", settingsBindingSource1, "Host", true));
             host.Location = new Point(87, 29);
             host.Margin = new Padding(2);
             host.Name = "host";
             host.Size = new Size(141, 23);
             host.TabIndex = 4;
+            // 
+            // settingsBindingSource1
+            // 
+            settingsBindingSource1.DataSource = typeof(Properties.Settings);
             // 
             // label1
             // 
@@ -197,9 +212,12 @@
             MinimizeBox = false;
             Name = "Form1";
             Text = "GCode To Bambu";
+            FormClosing += Form1_FormClosing;
             Load += Form1_Load;
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)settingsBindingSource2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)settingsBindingSource1).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
@@ -219,5 +237,7 @@
         private Panel panel1;
         private Button browseButton;
         private RichTextBox logTextBox;
+        private BindingSource settingsBindingSource2;
+        private BindingSource settingsBindingSource1;
     }
 }

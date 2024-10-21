@@ -21,12 +21,14 @@ namespace PrintToBambu
             InitializeComponent();
             this.DragEnter += new DragEventHandler(Form1_DragEnter);
             this.DragDrop += new DragEventHandler(Form1_DragDrop);
+            settingsBindingSource1.DataSource = Properties.Settings.Default;
+            settingsBindingSource2.DataSource = Properties.Settings.Default;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            host.Text = "192.168.68.68";
-            accessCode.Text = "e25bf7b6";
+            //host.Text = "192.168.68.68";
+            //accessCode.Text = "e25bf7b6";
         }
         void Form1_DragEnter(object sender, DragEventArgs e)
         {
@@ -77,7 +79,8 @@ namespace PrintToBambu
         private void Log(string message)
         {
             Debug.WriteLine(message);
-            Invoke(new Action(() => {
+            Invoke(new Action(() =>
+            {
                 logTextBox.AppendText(message + "\r\n");
                 ScrollToBottom(logTextBox);
             }));
@@ -96,7 +99,7 @@ namespace PrintToBambu
         private void Client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
         {
             LogInfo("Received MQTT message");
-            var match = Regex.Match(e.Topic, "device/([^/]+)/report",RegexOptions.IgnoreCase);
+            var match = Regex.Match(e.Topic, "device/([^/]+)/report", RegexOptions.IgnoreCase);
             if (!match.Success)
             {
                 LogError(String.Format("Couldn't extract device id from topic '{0}'", e.Topic));
@@ -173,6 +176,11 @@ namespace PrintToBambu
         {
             SendMessage(richTextBox.Handle, WM_VSCROLL, (IntPtr)SB_PAGEBOTTOM, IntPtr.Zero);
             richTextBox.SelectionStart = richTextBox.Text.Length;
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.Save();
         }
     }
 }
